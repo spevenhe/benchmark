@@ -72,16 +72,16 @@ int main(int argc, char *argv[]) {
 
   //---------------------------struct  test----------------------------
   //---------------------------START--------Serial Computation---------------------------------------------
-  clock_gettime(CLOCK_REALTIME,&tpBegin1);
-  for(int i = 0;i<NUM_THREADS;i++){
-    struct_function((void*)&t1->num_int);
-    struct_function((void*)&t1->num_long);
-  }
-  clock_gettime(CLOCK_REALTIME,&tpEnd1);
-  //---------------------------END----------Serial Computation---------------------------------------------
-  printf("Sequential: test1.num_int: %d\t\t test2.num_int: %d\n", t1->num_int,t1->num_long);
-  t1->num_int = 1;
-  t1->num_long = 1;
+//   clock_gettime(CLOCK_REALTIME,&tpBegin1);
+//   for(int i = 0;i<NUM_THREADS;i++){
+//     struct_function((void*)&t1->num_int);
+//     struct_function((void*)&t1->num_long);
+//   }
+//   clock_gettime(CLOCK_REALTIME,&tpEnd1);
+//   //---------------------------END----------Serial Computation---------------------------------------------
+//   printf("Sequential: test1.num_int: %d\t\t test2.num_int: %d\n", t1->num_int,t1->num_long);
+//   t1->num_int = 1;
+//   t1->num_long = 1;
 
   //---------------------------START--------parallel computation with False Sharing----------------------------
   clock_gettime(CLOCK_REALTIME,&tpBegin2);
@@ -113,14 +113,14 @@ int main(int argc, char *argv[]) {
 
   //--------------------------START------------------OUTPUT STATS--------------------------------------------
   printf("experiment with struct\n");
-  printf("test1.num_int: %d\t\t test2.num_int: %d\n", t1->num_int,t2->num_int);
+//   printf("test1.num_int: %d\t\t test2.num_int: %d\n", t1->num_int,t2->num_int);
 
-  time1 = compute(tpBegin1,tpEnd1);
+//   time1 = compute(tpBegin1,tpEnd1);
   time2 = compute(tpBegin2,tpEnd2);
   time3 = compute(tpBegin3,tpEnd3);
   printf("datastruct struct —— Time take with false sharing  (parallel)    : %f ms\n", time2);
   printf("datastruct struct —— Time taken without false sharing (parallel) : %f ms\n", time3);
-  printf("datastruct struct —— Time taken in Sequential computing          : %f ms\n", time1);
+//   printf("datastruct struct —— Time taken in Sequential computing          : %f ms\n", time1);
 
   // --------------------- array test-----------------------------------
   //---------------------------START--------Serial Computation---------------------------------------------
