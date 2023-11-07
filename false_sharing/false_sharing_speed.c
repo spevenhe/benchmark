@@ -98,17 +98,17 @@ int main(int argc, char *argv[]) {
   //---------------------------END----------parallel computation with False Sharing----------------------------
 
   //---------------------------START--------parallel computation without False Sharing------------------------
-  clock_gettime(CLOCK_REALTIME,&tpBegin3);   
-  for(int i = 0; i< 2*NUM_THREADS;i+=2){
-    pthread_create(&thread[i], NULL,struct_function, (void*)&t2->num_int);
-    pthread_create(&thread[i+1], NULL,struct_function, (void*)&t2->num_long);
-  }
-  for(int i = 0; i< 2*NUM_THREADS;i+=2){
-      pthread_join(thread[i], NULL);
-      pthread_join(thread[i+1], NULL);
-  }
-  clock_gettime(CLOCK_REALTIME,&tpEnd3);
-  printf("parallel computation without False Sharing: test2.num_int: %d\t\t test2.num_int: %d\n", t2->num_int,t2->num_int);
+//   clock_gettime(CLOCK_REALTIME,&tpBegin3);   
+//   for(int i = 0; i< 2*NUM_THREADS;i+=2){
+//     pthread_create(&thread[i], NULL,struct_function, (void*)&t2->num_int);
+//     pthread_create(&thread[i+1], NULL,struct_function, (void*)&t2->num_long);
+//   }
+//   for(int i = 0; i< 2*NUM_THREADS;i+=2){
+//       pthread_join(thread[i], NULL);
+//       pthread_join(thread[i+1], NULL);
+//   }
+//   clock_gettime(CLOCK_REALTIME,&tpEnd3);
+//   printf("parallel computation without False Sharing: test2.num_int: %d\t\t test2.num_int: %d\n", t2->num_int,t2->num_int);
   //---------------------------END--------parallel computation without False Sharing------------------------
 
   //--------------------------START------------------OUTPUT STATS--------------------------------------------
@@ -117,9 +117,9 @@ int main(int argc, char *argv[]) {
 
 //   time1 = compute(tpBegin1,tpEnd1);
   time2 = compute(tpBegin2,tpEnd2);
-  time3 = compute(tpBegin3,tpEnd3);
+//   time3 = compute(tpBegin3,tpEnd3);
   printf("datastruct struct —— Time take with false sharing  (parallel)    : %f ms\n", time2);
-  printf("datastruct struct —— Time taken without false sharing (parallel) : %f ms\n", time3);
+//   printf("datastruct struct —— Time taken without false sharing (parallel) : %f ms\n", time3);
 //   printf("datastruct struct —— Time taken in Sequential computing          : %f ms\n", time1);
 
   // --------------------- array test-----------------------------------
