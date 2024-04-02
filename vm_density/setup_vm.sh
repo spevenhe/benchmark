@@ -32,5 +32,7 @@ virt-install \
 
 qemu-img create -f qcow2 -F qcow2  -b /var/lib/libvirt/images/centos7.0.qcow2 /var/images/centos7.qcow2
 
+virt-clone --original centos7.0 --name centos7.0-2 --file /var/images/centos7.qcow2
+
 virsh domifaddr 
 virsh domblklist
