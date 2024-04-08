@@ -1,5 +1,6 @@
 import paramiko
 import threading
+import os
 
 def ssh_command(ip, port, user, passwd, command):
     client = paramiko.SSHClient()
@@ -15,13 +16,31 @@ def ssh_command(ip, port, user, passwd, command):
 def thread_function(ip, port, user, passwd, command):
     ssh_command(ip, port, user, passwd, command)
 
-# SSH连接的目标信息
-targets = [
-    ("192.168.1.1", 22, "user1", "password1", "ls"),
-    ("192.168.1.2", 22, "user2", "password2", "ls"),
-    # 添加更多机器的信息...
-]
+# 定义要执行的脚本路径
+script_path = '/home/xinyihe/benchmark/vm_density/get_vms.sh'
 
+# 定义一个空列表来存储输出结果
+output_list = []
+
+# 使用os.popen执行脚本
+append_flag = False
+with os.popen(script_path) as output:
+    for line in output:
+        # 将每一行输出添加到列表中
+
+        if(append_flag):
+            output_list.append(line.strip())
+        if("All extracted IP addresses" in line):
+            append_flag = True
+        
+
+print(output_list)
+targets = []
+command = 'hostname && date'
+# SSH连接的目标信息
+for result in output_list:
+    targets.append((result, 22, "root", "123456", command))
+    
 threads = []
 
 for target in targets:
