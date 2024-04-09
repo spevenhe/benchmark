@@ -1,22 +1,34 @@
+dnf install @virt
+systemctl start libvirtd
+systemctl enable libvirtd
+dnf install virt-install virt-manager
+
+
+use vnc
+```
 dnf groupinstall "Server with GUI"
 systemctl set-default graphical
 dnf install tigervnc-server tigervnc-server-module -y
+
 vim /etc/tigervnc/vncserver.users
 :1=root
+
 systemctl daemon-reload
+
 vncpasswd
+123456
+
 systemctl start vncserver@:1.service
 systemctl enable vncserver@:1.service
 systemctl status vncserver@:1.service
 
 
 
-dnf install @virt
-systemctl start libvirtd
-systemctl enable libvirtd
-dnf install virt-install
 
 
+```
+use commandline
+```
 virt-install \
 --name=centos7-vm \
 --ram=8192 \
@@ -34,5 +46,7 @@ qemu-img create -f qcow2 -F qcow2  -b /var/lib/libvirt/images/centos7.0.qcow2 /v
 
 virt-clone --original centos7.0 --name centos7.0-2 --file /var/images/centos7.qcow2
 
-virsh domifaddr 
-virsh domblklist
+virsh domifaddr {}
+virsh domblklist {}
+
+``
