@@ -8,7 +8,7 @@ import sys
 import libvirt
 import re
 
-def get_vms_ips() -> List[str]:
+def get_vms_ips_python_api() -> List[str]:
     # 定义一个空字典来存储输出结果
     output_list = []
     conn = None
