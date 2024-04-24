@@ -4,8 +4,6 @@ import os
 from typing import List, Dict
 import statistics
 import numpy as np
-import sys
-
 import re
 
 def get_vms_ips_zstack_api(script_path: str) -> List[str]:
@@ -21,21 +19,6 @@ def get_vms_ips_zstack_api(script_path: str) -> List[str]:
                 output_set.add(ip_address.group())
             
     output_list = list(output_set)        
-    print(output_list)
-    return output_list
-
-def get_vms_ips(script_path: str) -> List[str]:
-    # 定义一个空字典来存储输出结果
-    output_list = []
-    # 使用os.popen执行脚本
-    append_flag = False
-    with os.popen(script_path) as output:
-        for line in output:
-            # 将每一行输出添加到列表中
-            if(append_flag):
-                output_list.append(line.strip())
-            if("All extracted IP addresses" in line):
-                append_flag = True
     print(output_list)
     return output_list
 
