@@ -5,36 +5,22 @@ from typing import List, Dict
 import statistics
 import numpy as np
 import sys
-import libvirt
+
 import re
 
-def get_vms_ips_python_api() -> List[str]:
+def get_vms_ips_zstack_api(script_path: str) -> List[str]:
     # 定义一个空字典来存储输出结果
     output_list = []
-    conn = None
-    try:
-        conn = libvirt.open("qemu:///system")
-    except libvirt.libvirtError as e:
-        print(repr(e), file=sys.stderr)
-        exit(1)
-    domains = conn.listAllDomains(0)
-    pattern = re.compile(r'vnet\d+')
-    for domain in domains:
-        print(f"name: {domain.name()}")
-        state, reason = domain.state()
-        if state == libvirt.VIR_DOMAIN_RUNNING:
-            ifaces = domain.interfaceAddresses(libvirt.VIR_DOMAIN_INTERFACE_ADDRESSES_SRC_LEASE)
-            for key in ifaces.keys():
-                # 如果键匹配正则表达式
-                if pattern.match(key):
-                    # 获取 'addr' 的值
-                    addr = ifaces[key]['addrs'][0]['addr']
-                    print(f"ip address: {addr}")
-                    output_list.append(addr)       
-        else:
-            print(' None')
-
-    conn.close()
+    output_set = set()
+    # 使用os.popen执行脚本
+    with os.popen(script_path) as output:
+        for line in output:
+            # 将每一行输出添加到列表中
+            ip_address = re.search(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', line)
+            if ip_address:
+                output_set.add(ip_address.group())
+            
+    output_list = list(output_set)        
     print(output_list)
     return output_list
 
@@ -90,11 +76,10 @@ def anlysis_result(results: Dict[str, float]):
   
 # 主函数的变量需要修改script_path/command/用户/密码等信息，以适应不同的场景
 def main():
-    #get_vms_ips_python_api()
-    # 定义要执行的脚本路径
-    script_path = '/home/xinyihe/benchmark/vm_density/get_vms.sh'
-    # 定义一个空字典来存储输出结果
-    output_list = get_vms_ips(script_path)
+     # 定义要执行的脚本路径
+    script_path = '/home/pdt/benchmark/vm_density/get_zstack_vms.sh'
+    output_list = get_vms_ips_zstack_api(script_path)
+
     # 一个set来储存结果
     result_dict = {}
  
